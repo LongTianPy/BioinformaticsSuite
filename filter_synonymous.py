@@ -39,7 +39,7 @@ if __name__ == '__main__':
         f = open(vcf,"r")
         lines = [i.strip().split("\t") for i in f.readlines()]
         f.close()
-        if lines[0].starswith("##fileformat"):
+        if lines[0][0].startswith("##fileformat"):
             # This is a vcf file
             vcf_content = lines[24:]
             gene_ids = [i[0] for i in vcf_content]
