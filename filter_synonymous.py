@@ -54,11 +54,11 @@ if __name__ == '__main__':
                 mutated = seq.seq[:pos] + alts[idx] + seq.seq[pos+ref_len:]
                 return seq.seq, mutated
             f = open(output,"w")
-            f.write("Gene,Ref,Alt,Original_seq,Mutated_seq\n")
+            f.write("Gene,Position,Ref,Alt,Original_seq,Mutated_seq\n")
             for i in range(len(gene_ids)):
                 orig, mutated = check_aa_change(i)
                 if orig.translate() != mutated.translate():
-                    f.write(",".join([gene_ids[i], refs[i], alts[i], str(orig), str(mutated)]))
+                    f.write(",".join([gene_ids[i],str(positions[i]+1), refs[i], alts[i], str(orig), str(mutated)]))
                     f.write("\n")
             f.close()
         else:
