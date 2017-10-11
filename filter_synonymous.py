@@ -33,7 +33,7 @@ if __name__ == '__main__':
         vcf = args.vcf
         cds = args.cds
         if args.output is None:
-            output = "filtered_"+vcf+".csv"
+            output = "filtered_"+vcf+".txt"
         else:
             output = args.output
         if args.df:
