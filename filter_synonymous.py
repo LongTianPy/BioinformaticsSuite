@@ -58,7 +58,7 @@ if __name__ == '__main__':
             for i in range(len(gene_ids)):
                 orig, mutated = check_aa_change(i)
                 if orig.translate() != mutated.translate():
-                    f.write(",".join([gene_ids[i], refs[i], alts[i], orig, mutated]))
+                    f.write(",".join([gene_ids[i], refs[i], alts[i], str(orig), str(mutated)]))
                     f.write("\n")
             f.close()
         else:
