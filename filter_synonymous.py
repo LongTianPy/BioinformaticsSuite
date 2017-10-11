@@ -64,7 +64,7 @@ if __name__ == '__main__':
             for i in range(len(gene_ids)):
                 orig, mutated = check_aa_change(i)
                 if orig.translate() != mutated.translate():
-                    if df:
+                    if df is not None:
                         f.write(",".join([gene_ids[i], str(df.get_value(gene_ids[i],"function")),str(positions[i] + 1), refs[i], alts[i], str(orig), str(mutated)]))
                     else:
                         f.write(",".join([gene_ids[i],str(positions[i]+1), refs[i], alts[i], str(orig), str(mutated)]))
