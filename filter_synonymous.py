@@ -57,7 +57,7 @@ if __name__ == '__main__':
                 mutated = seq.seq[:pos] + alts[idx] + seq.seq[pos+ref_len:]
                 return seq.seq, mutated
             f = open(output,"w")
-            if df:
+            if df is not None:
                 f.write("Gene,Function,Position,Ref,Alt,Original_seq,Mutated_seq\n")
             else:
                 f.write("Gene,Position,Ref,Alt,Original_seq,Mutated_seq\n")
