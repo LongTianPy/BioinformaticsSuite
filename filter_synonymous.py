@@ -10,7 +10,7 @@ in your command line.
 from Bio import SeqIO
 import argparse
 import sys
-import os
+import pandas as pd
 
 # FUNCTIONS
 def get_parsed_args():
@@ -20,6 +20,7 @@ def get_parsed_args():
     parser.add_argument("-i", dest="vcf", help="The VCF file from VarScan.")
     parser.add_argument("-m", dest="cds", help="The annotated coding sequences from RAST server")
     parser.add_argument("-o", dest="output", help="The output file name. Default: filtered_{VCF file name}.csv")
+    parser.add_argument("-t", dest="df", help="Optional, a spreadsheet containing gene IDs and functions, save as CSV format.")
     args = parser.parse_args()
     return args
 
@@ -35,6 +36,8 @@ if __name__ == '__main__':
             output = "filtered_"+vcf+".csv"
         else:
             output = args.output
+        if args.df:
+            df = pd.read_table(args.df,sep=",",header=0,index_col=1)
         records = SeqIO.index(cds,"fasta")
         f = open(vcf,"r")
         lines = [i.strip().split("\t") for i in f.readlines()]
@@ -54,11 +57,17 @@ if __name__ == '__main__':
                 mutated = seq.seq[:pos] + alts[idx] + seq.seq[pos+ref_len:]
                 return seq.seq, mutated
             f = open(output,"w")
-            f.write("Gene,Position,Ref,Alt,Original_seq,Mutated_seq\n")
+            if df:
+                f.write("Gene,Function,Position,Ref,Alt,Original_seq,Mutated_seq\n")
+            else:
+                f.write("Gene,Position,Ref,Alt,Original_seq,Mutated_seq\n")
             for i in range(len(gene_ids)):
                 orig, mutated = check_aa_change(i)
                 if orig.translate() != mutated.translate():
-                    f.write(",".join([gene_ids[i],str(positions[i]+1), refs[i], alts[i], str(orig), str(mutated)]))
+                    if df:
+                        f.write(",".join([gene_ids[i], str(df.get_value(gene_ids[i],"function")),str(positions[i] + 1), refs[i], alts[i], str(orig), str(mutated)]))
+                    else:
+                        f.write(",".join([gene_ids[i],str(positions[i]+1), refs[i], alts[i], str(orig), str(mutated)]))
                     f.write("\n")
             f.close()
         else:
