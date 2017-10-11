@@ -52,7 +52,7 @@ if __name__ == '__main__':
                 ref_len = len(refs[idx])
                 alt_len = len(alts[idx])
                 mutated = seq.seq[:pos] + alts[idx] + seq.seq[pos+ref_len:]
-                return seq.seq, mutated.seq
+                return seq.seq, mutated
             f = open(output,"w")
             f.write("Gene,Ref,Alt,Original_seq,Mutated_seq\n")
             for i in range(len(gene_ids)):
