@@ -44,7 +44,7 @@ def search_taxonomy(folder):
                 genus = "_".join(genus_species_list[:2])
                 species = "_".join(genus_species_list[2:])
                 label_split = labels_dict[genome].split(" ")
-                strain_split = label_split[len(genus_species_list):]
+                strain_split = label_split
                 strain = strain_split[-1] # Need to be unique
             if "type strain" in labels_dict[genome]:
                 type_strain = "Yes"
