@@ -4,9 +4,9 @@
 
 # IMPORT
 import pandas as pd
-from Bio import Entrez
+from Bio import Entrez # The module to get access to NCBI databases
 import sys
-Entrez.email = "aaa@bbb.com"
+Entrez.email = "aaa@bbb.com" # Required for accessing NCBI databases
 
 # FUNCTIONS
 def get_lineage(metadata_file):
@@ -24,7 +24,6 @@ def get_lineage(metadata_file):
         if taxid == "N/A":
             continue
         else:
-            print(taxid)
             handle = Entrez.efetch(db="taxonomy", id=str(taxid), rettype="xml")
             record = Entrez.read(handle)[0]
             lineage = record["LineageEx"]
