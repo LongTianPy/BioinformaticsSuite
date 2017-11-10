@@ -11,21 +11,18 @@ Entrez.email = "aaa@bbb.com"
 # FUNCTIONS
 def get_lineage(metadata_file):
     df = pd.read_csv(metadata_file,header=0)
-    lineage_dict = {'superkingdom':[],'phylum':[],'class':[],'order':[],'family':[],'genus':[],'species':[],'subspecies':[]}
+    lineage_dict = {'superkingdom':["N/A"]*len(df.index),'phylum':["N/A"]*len(df.index),'class':["N/A"]*len(df.index),
+                    'order':["N/A"]*len(df.index),'family':["N/A"]*len(df.index),'genus':["N/A"]*len(df.index),
+                    'species':["N/A"]*len(df.index),'subspecies':["N/A"]*len(df.index),'full_lineage':["N/A"]*len(df.index)}
+    for i in lineage_dict.keys():
+        df[i] = lineage_dict[i]
     for i in df.index:
         try:
             taxid = int(df.loc[i,"Tax_ID"])
         except:
             taxid = "N/A"
         if taxid == "N/A":
-            lineage_dict['superkingdom'].append("N/A")
-            lineage_dict['phylum'].append("N/A")
-            lineage_dict['class'].append('N/A')
-            lineage_dict['order'].append('N/A')
-            lineage_dict['family'].append('N/A')
-            lineage_dict['genus'].append('N/A')
-            lineage_dict['species'].append('N/A')
-            lineage_dict['subspecies'].append('N/A')
+            continue
         else:
             print(taxid)
             handle = Entrez.efetch(db="taxonomy", id=str(taxid), rettype="xml")
@@ -33,13 +30,13 @@ def get_lineage(metadata_file):
             lineage = record["LineageEx"]
             for i in lineage:
                 if i["Rank"] in lineage_dict:
-                    lineage_dict[i["Rank"]].append(i["ScientificName"])
+                    # lineage_dict[i["Rank"]].append(i["ScientificName"])
+                    df.loc[i,i["Rank"]] = i["ScientificName"]
                     if lineage[-2]["Rank"] == "species":
-                        lineage_dict["subspecies"].append(i["ScientificName"])
-                    else:
-                        lineage_dict["subspecies"].append("N/A")
-    for i in lineage_dict.keys():
-        df[i] = lineage_dict[i]
+                        #lineage_dict["subspecies"].append(i["ScientificName"])
+                        df.loc[i,"subspecies"] = i["ScientificName"]
+            complete_name = ";".join(["{0}={1}".format(i["Rank"],i["ScientificName"]) for i in lineage[1:]])
+            df.loc[i,"full_lineage"] = complete_name
     df.to_csv("metadata_w_lineage.csv")
 
 
