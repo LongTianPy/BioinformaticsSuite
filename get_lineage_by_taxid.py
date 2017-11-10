@@ -10,7 +10,7 @@ Entrez.email = "aaa@bbb.com"
 
 # FUNCTIONS
 def get_lineage(metadata_file):
-    df = pd.read_table(metadata_file,header=0,sep=",")
+    df = pd.read_csv(metadata_file,header=0)
     lineage_dict = {'superkingdom':[],'phylum':[],'class':[],'order':[],'family':[],'genus':[],'species':[],'subspecies':[]}
     for i in df.index:
         taxid = df.get_value(i,"Tax_ID")
