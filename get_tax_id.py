@@ -32,7 +32,7 @@ def search_taxonomy(folder):
     types=[]
     tax_ids = []
     for genome in genomes:
-        genus_species = classes_file[genome]
+        genus_species = classes_dict[genome]
         genus_species_list = genus_species.split(" ")
         if "sp." in genus_species_list or "Candidatus" in genus_species_list:
             organism_name = genus_species
