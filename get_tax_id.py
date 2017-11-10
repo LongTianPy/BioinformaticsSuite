@@ -53,7 +53,8 @@ def search_taxonomy(folder):
             species = genus_species[1]
             label_split = labels_dict[genome].split(" ")
             strain_split = label_split[len(genus_species_list):]
-            if strain_split[0] == "type":
+            strain_whole = " ".join(strain_split)
+            if "type" in strain_whole:
                 type_strain = "Yes"
                 strain = "_".join(strain_split[2:])
             else:
