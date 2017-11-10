@@ -32,7 +32,7 @@ def search_taxonomy(folder):
     types=[]
     tax_ids = []
     for genome in genomes:
-        genus_species = classes[genome]
+        genus_species = classes_file[genome]
         genus_species_list = genus_species.split(" ")
         if "sp." in genus_species_list or "Candidatus" in genus_species_list:
             organism_name = genus_species
@@ -44,12 +44,12 @@ def search_taxonomy(folder):
                 genus = "_".join(genus_species_list[:2])
                 species = "_".join(genus_species_list[2:])
                 strain = genus_species_list[-1]
-            if "type strain" in labels[genome]:
+            if "type strain" in labels_dict[genome]:
                 type_strain = "Yes"
             else:
                 type_strain = "No"
         else:
-            label_split = labels[genome].split(" ")
+            label_split = labels_dict[genome].split(" ")
             strain_split = label_split[len(genus_species_list):]
             if strain_split[0] == "type":
                 type_strain = "Yes"
