@@ -50,7 +50,7 @@ def search_taxonomy(folder):
                 type_strain = "No"
         else:
             genus = genus_species_list[0]
-            species = genus_species[1]
+            species = genus_species_list[1]
             label_split = labels_dict[genome].split(" ")
             strain_split = label_split[len(genus_species_list):]
             strain_whole = " ".join(strain_split)
