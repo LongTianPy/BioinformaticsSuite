@@ -28,13 +28,13 @@ def get_lineage(metadata_file):
             handle = Entrez.efetch(db="taxonomy", id=str(taxid), rettype="xml")
             record = Entrez.read(handle)[0]
             lineage = record["LineageEx"]
-            for i in lineage:
-                if i["Rank"] in lineage_dict:
+            for each in lineage:
+                if each["Rank"] in lineage_dict:
                     # lineage_dict[i["Rank"]].append(i["ScientificName"])
-                    df.loc[i,i["Rank"]] = i["ScientificName"]
+                    df.loc[i,each["Rank"]] = each["ScientificName"]
                     if lineage[-2]["Rank"] == "species":
                         #lineage_dict["subspecies"].append(i["ScientificName"])
-                        df.loc[i,"subspecies"] = i["ScientificName"]
+                        df.loc[i,"subspecies"] = each["ScientificName"]
             complete_name = ";".join(["{0}={1}".format(i["Rank"],i["ScientificName"]) for i in lineage[1:]])
             df.loc[i,"full_lineage"] = complete_name
     df.to_csv("metadata_w_lineage.csv")
