@@ -78,7 +78,7 @@ def search_taxonomy(folder):
     metadata["Type_strain"] = types
     metadata["organism_name"] = organism_names
     metadata["File"] = genomes
-    metadata.to_csv("metadata.csv")
+    metadata.to_csv(join(folder,"metadata.csv"))
 
 
 
