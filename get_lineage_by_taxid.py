@@ -13,7 +13,10 @@ def get_lineage(metadata_file):
     df = pd.read_csv(metadata_file,header=0)
     lineage_dict = {'superkingdom':[],'phylum':[],'class':[],'order':[],'family':[],'genus':[],'species':[],'subspecies':[]}
     for i in df.index:
-        taxid = df.get_value(i,"Tax_ID")
+        try:
+            taxid = int(df.loc[i,"Tax_ID"])
+        except:
+            taxid = "N/A"
         if taxid == "N/A":
             lineage_dict['superkingdom'].append("N/A")
             lineage_dict['phylum'].append("N/A")
@@ -24,6 +27,7 @@ def get_lineage(metadata_file):
             lineage_dict['species'].append('N/A')
             lineage_dict['subspecies'].append('N/A')
         else:
+            print(taxid)
             handle = Entrez.efetch(db="taxonomy", id=str(taxid), rettype="xml")
             record = Entrez.read(handle)[0]
             lineage = record["LineageEx"]
