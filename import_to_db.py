@@ -50,9 +50,9 @@ if __name__ == '__main__':
         tmp = c.fetchall()
         for each in tmp:
             if each[0] not in Attribute_Name_to_Value:
-                Attribute_Name_to_Value[each[0]] = [str(each[1])]
+                Attribute_Name_to_Value[each[0]] = [str(each[1]).replace(" ","_")]
             else:
-                Attribute_Name_to_Value[each[0]].append(str(each[1]))
+                Attribute_Name_to_Value[each[0]].append(str(each[1]).replace(" ","_"))
     with open("import_db_cmd.txt","w") as f:
         attribute_value_list = []
         for i in range(len(Genome_ID)):
