@@ -28,9 +28,10 @@ if __name__ == '__main__':
               "LIN.Scheme_ID=4 AND AttributeValue.AttributeValue='{0}' and Genome.Interest_ID=1".format(keyword))
     tmp = c.fetchall()
     Genome_ID = [int(i[0]) for i in tmp]
+    print(Genome_ID)
     FilePath = [i[1] for i in tmp]
-    for i in FilePath:
-        shutil.copy(i,tmp_folder)
+    # for i in FilePath:
+    #     shutil.copy(i,tmp_folder)
     GenomeName = [i[2] for i in tmp]
     c.execute("select Attribute_IDs from Interest where Interest_ID=1")
     Attribute_IDs = c.fetchone()[0]
