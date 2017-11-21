@@ -6,6 +6,7 @@
 from MySQLdb import Connect
 import sys
 import shutil
+import os
 
 tmp_folder = '/home/linproject/Workspace/tmp_upload/'
 
@@ -56,7 +57,11 @@ if __name__ == '__main__':
         attribute_value_list = []
         for i in range(len(Genome_ID)):
             for each_attributename in AttributeNames:
-                attribute_value_list.append(Attribute_Name_to_Value[each_attributename][i])
+                try:
+                    attribute_value_list.append(Attribute_Name_to_Value[each_attributename][i])
+                except:
+                    print("index={0}; Genome_ID={1};")
+                    sys.exit(0)
             attribute_value_list.append("N/A")
             attribute_value = "^^".join(attribute_value_list)
             arguments = "-i {0} -u 2 -s 1 -t {1}".format(GenomeName[i],attribute_value)
