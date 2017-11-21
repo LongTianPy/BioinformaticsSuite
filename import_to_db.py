@@ -67,7 +67,7 @@ if __name__ == '__main__':
             attribute_value_list.append("N/A")
             attribute_value = "^^".join(attribute_value_list)
             arguments = "-i {0} -u 2 -s 1 -t {1}".format(GenomeName[i],attribute_value)
-            cmd = "python /home/linproject/Projects/LIN_proto/workflow.py {0}".format(arguments)
+            cmd = "python /home/linproject/Projects/LIN_proto/workflow2.py {0}".format(arguments)
             f.write(cmd)
             f.write("\n")
 
