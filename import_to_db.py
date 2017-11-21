@@ -25,7 +25,7 @@ if __name__ == '__main__':
     conn,c = connect_to_db(from_db=from_db)
     c.execute("select LIN.Genome_ID,Genome.FilePath,Genome.GenomeName from AttributeValue,Genome,LIN where "
               "AttributeValue.Genome_ID=Genome.Genome_ID and LIN.Genome_ID=Genome.Genome_ID AND "
-              "LIN.Scheme_ID=4 AND AttributeValue.AttributeValue='{0}'".format(keyword))
+              "LIN.Scheme_ID=4 AND AttributeValue.AttributeValue='{0}' and Genome.Interest_ID=1".format(keyword))
     tmp = c.fetchall()
     Genome_ID = [int(i[0]) for i in tmp]
     FilePath = [i[1] for i in tmp]
