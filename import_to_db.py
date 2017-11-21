@@ -28,8 +28,8 @@ if __name__ == '__main__':
     tmp = c.fetchall()
     Genome_ID = [int(i[0]) for i in tmp]
     FilePath = [i[1] for i in tmp]
-    for i in FilePath:
-        shutil.copy(i,tmp_folder)
+    # for i in FilePath:
+    #     shutil.copy(i,tmp_folder)
     GenomeName = [i[2] for i in tmp]
     c.execute("select Attribute_IDs from Interest where Interest_ID=1")
     Attribute_IDs = c.fetchone()[0]
@@ -39,19 +39,24 @@ if __name__ == '__main__':
     AttributeNames = [i[0] for i in tmp]
     Attribute_ID_to_Name = {}
     Attribute_ID_to_Value = {}
-    for i in range(len(Attribute_ID_list)):
-        Attribute_ID_to_Name[AttributeNames[i]] = str(Attribute_ID_list[i])
-        Attribute_ID_to_Value[str(Attribute_ID_list[i])] = []
+    Attribute_Name_to_Value = {}
+    # for i in range(len(Attribute_ID_list)):
+    #     Attribute_ID_to_Name[AttributeNames[i]] = str(Attribute_ID_list[i])
+    #     Attribute_ID_to_Value[str(Attribute_ID_list[i])] = []
     for i in Genome_ID:
-        c.execute("select Attribute_ID,AttributeValue from AttributeValue where Genome_ID={0}".format(i))
+        c.execute("select Attribute.AttributeName,AttributeValue.AttributeValue from AttributeValue,Attribute where "
+                  "Attribute.Attribute_ID=AttributeValue.attribute_ID AttributeValue.Genome_ID={0}".format(i))
         tmp = c.fetchall()
         for each in tmp:
-            Attribute_ID_to_Value[str(each[0])].append(each[1])
+            if each[0] not in Attribute_Name_to_Value:
+                Attribute_Name_to_Value[each[0]] = [str(each[1])]
+            else:
+                Attribute_Name_to_Value[each[0]].append(str(each[1]))
     with open("import_db_cmd.txt","w") as f:
         attribute_value_list = []
         for i in range(len(Genome_ID)):
             for each_attributename in AttributeNames:
-                attribute_value_list.append(str(Attribute_ID_to_Value[Attribute_ID_to_Name[each_attributename]][i]))
+                attribute_value_list.append(Attribute_Name_to_Value[each_attributename][i])
             attribute_value_list.append("N/A")
             attribute_value = "^^".join(attribute_value_list)
             arguments = "-i {0} -u 2 -s 1 -t {1}".format(GenomeName[i],attribute_value)
