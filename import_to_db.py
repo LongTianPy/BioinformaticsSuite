@@ -60,7 +60,7 @@ if __name__ == '__main__':
                 try:
                     attribute_value_list.append(Attribute_Name_to_Value[each_attributename][i])
                 except:
-                    print("index={0}; Genome_ID={1};")
+                    print("index={0}; Genome_ID={1};".format(i,Genome_ID[i]))
                     sys.exit(0)
             attribute_value_list.append("N/A")
             attribute_value = "^^".join(attribute_value_list)
