@@ -32,7 +32,7 @@ if __name__ == '__main__':
     FilePath = [i[1] for i in tmp]
     # for i in FilePath:
     #     shutil.copy(i,tmp_folder)
-    GenomeName = [i[2] for i in tmp]
+    GenomeName = [i.split("/")[-1] for i in FilePath]
     c.execute("select Attribute_IDs from Interest where Interest_ID=1")
     Attribute_IDs = c.fetchone()[0]
     Attribute_ID_list = Attribute_IDs.split(",")
