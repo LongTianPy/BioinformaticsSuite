@@ -45,7 +45,7 @@ if __name__ == '__main__':
     #     Attribute_ID_to_Value[str(Attribute_ID_list[i])] = []
     for i in Genome_ID:
         c.execute("select Attribute.AttributeName,AttributeValue.AttributeValue from AttributeValue,Attribute where "
-                  "Attribute.Attribute_ID=AttributeValue.attribute_ID AttributeValue.Genome_ID={0}".format(i))
+                  "Attribute.Attribute_ID=AttributeValue.attribute_ID and AttributeValue.Genome_ID={0}".format(i))
         tmp = c.fetchall()
         for each in tmp:
             if each[0] not in Attribute_Name_to_Value:
