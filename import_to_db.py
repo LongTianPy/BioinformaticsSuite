@@ -56,8 +56,8 @@ if __name__ == '__main__':
                 Attribute_Name_to_Value[each[0]].append(str(each[1]).replace(" ","_"))
     print(Attribute_Name_to_Value["Strain"])
     with open("import_db_cmd.txt","w") as f:
-        attribute_value_list = []
         for i in range(len(Genome_ID)):
+            attribute_value_list = []
             for each_attributename in AttributeNames:
                 try:
                     attribute_value_list.append(Attribute_Name_to_Value[each_attributename][i])
