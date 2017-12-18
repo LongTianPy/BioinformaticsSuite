@@ -38,7 +38,7 @@ def create_db_by_LIN(LIN,c):
             f.write(str(record.seq))
         f.write("\n")
     f.close()
-    cmd = "mkblastdb -in genomes/blastdb.fasta -dbtype nucl -hash_index -out genomes/blastdb"
+    cmd = "makeblastdb -in genomes/blastdb.fasta -dbtype nucl -hash_index -out genomes/blastdb"
     os.system(cmd)
 
 def run_blast(input_folder):
