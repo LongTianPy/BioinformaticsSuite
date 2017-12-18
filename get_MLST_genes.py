@@ -59,3 +59,6 @@ def run_blast(input_folder):
 if __name__ == '__main__':
     input_folder = sys.argv[1]
     LIN = sys.argv[2]
+    conn,c = connect_to_db()
+    create_db_by_LIN(LIN,c)
+    run_blast(input_folder)
