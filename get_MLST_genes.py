@@ -46,7 +46,7 @@ def run_blast(input_folder):
     if not isdir("blast_out"):
         os.mkdir("blast_out")
     for input in inputs:
-        cmd = "blastn -db genomes/blastdb -query {1} -num_threads 4 -outfmt 6 > {1}".format_map(join(input_folder,input)
+        cmd = "blastn -db genomes/blastdb -query {0} -num_threads 4 -outfmt 6 > {1}".format(join(input_folder,input)
                                                                                                 ,join("blast_out",input))
         os.system(cmd)
 
