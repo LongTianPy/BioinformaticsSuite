@@ -50,7 +50,43 @@ def run_blast(input_folder):
                                                                                                 ,join("blast_out",input))
         os.system(cmd)
 
-
+def get_housekeeping_seqs(input_folder,c):
+    db = SeqIO.index("genomes/blastdb.fasta", "fasta")
+    blast_outs = [file for file in listdir("blast_out")]
+    pool = {blast_out:{} for blast_out in blast_outs}
+    for blast_out in blast_outs:
+        f = open(join(input_folder,blast_out),"r")
+        records = list(SeqIO.parse(f,"fasta"))
+        f.close()
+        gene_length = len(records[0].seq)
+        f = open("blast_out/"+blast_out,"r")
+        lines = [i.strip().split("\t") for i in f.readlines()]
+        f.close()
+        for line in lines:
+            if lines[1] not in pool[blast_out]:
+                if line[3] == gene_length:
+                    start = int(line[8])-1
+                    end = int(line[9])
+                    seq = str(db[str(line[1])].seq)
+                    pool[blast_out][str(line[1])] = seq
+    union = set(pool.keys()[0].keys())
+    for i in pool.keys():
+        union = union & set(pool[i].keys())
+    genome_list = list(union)
+    if not isdir("house_keeping"):
+        os.mkdir("house_keeping")
+    for blast_out in blast_outs:
+        f = open(join("house_keeping",blast_out),"w")
+        for genome in genome_list:
+            c.execute("select AttributeValue from AttributeValue where Genome_ID={0} and Attribute_ID in (1,2,4)".format_map(int(genome)))
+            tmp = c.fetchall()
+            genus = tmp[0][0]
+            species = tmp[1][0]
+            strain = tmp[2][0]
+            f.write(">{0} {1} {2}|{3}\n".format_map(genus,species,strain,genome))
+            f.write(pool[blast_out][genome])
+            f.write("\n")
+        f.close()
 
 
 
@@ -60,5 +96,6 @@ if __name__ == '__main__':
     input_folder = sys.argv[1]
     LIN = sys.argv[2]
     conn,c = connect_to_db()
-    create_db_by_LIN(LIN,c)
-    run_blast(input_folder)
+    #create_db_by_LIN(LIN,c)
+    #run_blast(input_folder)
+    get_housekeeping_seqs(input_folder,c)
