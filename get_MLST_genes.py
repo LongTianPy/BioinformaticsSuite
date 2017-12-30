@@ -63,7 +63,7 @@ def get_housekeeping_seqs(input_folder,c):
         lines = [i.strip().split("\t") for i in f.readlines()]
         f.close()
         for line in lines:
-            if lines[1] not in pool[blast_out]:
+            if lines[1] not in pool[blast_out].keys():
                 if line[3] == gene_length:
                     start = int(line[8])-1
                     end = int(line[9])
