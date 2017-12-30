@@ -73,6 +73,7 @@ def get_housekeeping_seqs(input_folder,c):
     for i in pool.keys():
         union = union & set(pool[i].keys())
     genome_list = list(union)
+    print(genome_list)
     if not isdir("house_keeping"):
         os.mkdir("house_keeping")
     for blast_out in blast_outs:
