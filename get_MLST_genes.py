@@ -69,6 +69,7 @@ def get_housekeeping_seqs(input_folder,c):
                     end = int(line[9])
                     seq = str(db[str(line[1])].seq)
                     pool[blast_out][str(line[1])] = seq
+    print(pool)
     union = set(pool[pool.keys()[0]].keys())
     for i in pool.keys():
         union = union & set(pool[i].keys())
