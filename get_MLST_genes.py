@@ -62,6 +62,7 @@ def get_housekeeping_seqs(input_folder,c):
             f.close()
             print(len(records))
             gene_length = len(records[0].seq)
+            print(gene_length)
             f = open("blast_out/"+blast_out,"r")
             lines = [i.strip().split("\t") for i in f.readlines()]
             f.close()
