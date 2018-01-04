@@ -69,7 +69,7 @@ def get_housekeeping_seqs(input_folder,c):
             print(len(lines))
             for line in lines:
                 if line[1] not in this_pool:
-                    if line[3] == gene_length:
+                    if int(line[3]) == gene_length:
                         start = int(line[8])-1
                         end = int(line[9])
                         seq = str(db[str(line[1])].seq[start:end])
