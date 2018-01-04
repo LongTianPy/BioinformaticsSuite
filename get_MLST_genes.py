@@ -91,7 +91,7 @@ def get_housekeeping_seqs(input_folder,c):
             genus = tmp[0][0]
             species = tmp[1][0]
             strain = tmp[2][0]
-            f.write(">{0} {1} {2}|{3}\n".format_map(genus,species,strain,genome))
+            f.write(">{0} {1} {2}|{3}\n".format(genus,species,strain,genome))
             f.write(pool[blast_out][genome])
             f.write("\n")
         f.close()
