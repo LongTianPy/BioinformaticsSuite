@@ -70,9 +70,12 @@ def get_housekeeping_seqs(input_folder,c):
             for line in lines:
                 if line[1] not in this_pool:
                     if int(line[3]) == gene_length:
-                        start = int(line[8])-1
+                        start = int(line[8])
                         end = int(line[9])
-                        seq = str(db[str(line[1])].seq[start:end])
+                        if start < end:
+                            seq = str(db[str(line[1])].seq[start-1:end])
+                        else:
+                            seq = str(db[str(line[1])].seq[end-1:start].reverse_complement())
                         this_pool[line[1]] = seq
             pool[blast_out] = this_pool
     print(pool)
