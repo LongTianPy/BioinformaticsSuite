@@ -53,22 +53,25 @@ def run_blast(input_folder):
 def get_housekeeping_seqs(input_folder,c):
     db = SeqIO.index("genomes/blastdb.fasta", "fasta")
     blast_outs = [file for file in listdir("blast_out")]
-    pool = {blast_out:{} for blast_out in blast_outs}
+    pool = {}
     for blast_out in blast_outs:
-        f = open(join(input_folder,blast_out),"r")
-        records = list(SeqIO.parse(f,"fasta"))
-        f.close()
-        gene_length = len(records[0].seq)
-        f = open("blast_out/"+blast_out,"r")
-        lines = [i.strip().split("\t") for i in f.readlines()]
-        f.close()
-        for line in lines:
-            if lines[1] not in pool[blast_out].keys():
-                if line[3] == gene_length:
-                    start = int(line[8])-1
-                    end = int(line[9])
-                    seq = str(db[str(line[1])].seq)
-                    pool[blast_out][str(line[1])] = seq
+        if blast_out not in pool:
+            this_pool = {}
+            f = open(join(input_folder,blast_out),"r")
+            records = list(SeqIO.parse(f,"fasta"))
+            f.close()
+            gene_length = len(records[0].seq)
+            f = open("blast_out/"+blast_out,"r")
+            lines = [i.strip().split("\t") for i in f.readlines()]
+            f.close()
+            for line in lines:
+                if line[1] not in this_pool:
+                    if line[3] == gene_length:
+                        start = int(line[8])-1
+                        end = int(line[9])
+                        seq = str(db[str(line[1])].seq[start:end])
+                        this_pool[line[1]] = seq
+            pool[blast_out] = this_pool
     print(pool)
     union = set(pool[pool.keys()[0]].keys())
     for i in pool.keys():
