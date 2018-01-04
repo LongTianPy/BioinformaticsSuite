@@ -86,7 +86,7 @@ def get_housekeeping_seqs(input_folder,c):
     for blast_out in blast_outs:
         f = open(join("house_keeping",blast_out),"w")
         for genome in genome_list:
-            c.execute("select AttributeValue from AttributeValue where Genome_ID={0} and Attribute_ID in (1,2,4)".format_map(int(genome)))
+            c.execute("select AttributeValue from AttributeValue where Genome_ID={0} and Attribute_ID in (1,2,4)".format(int(genome)))
             tmp = c.fetchall()
             genus = tmp[0][0]
             species = tmp[1][0]
