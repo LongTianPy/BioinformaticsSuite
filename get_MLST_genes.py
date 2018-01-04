@@ -60,10 +60,12 @@ def get_housekeeping_seqs(input_folder,c):
             f = open(join(input_folder,blast_out),"r")
             records = list(SeqIO.parse(f,"fasta"))
             f.close()
+            print(len(records))
             gene_length = len(records[0].seq)
             f = open("blast_out/"+blast_out,"r")
             lines = [i.strip().split("\t") for i in f.readlines()]
             f.close()
+            print(len(lines))
             for line in lines:
                 if line[1] not in this_pool:
                     if line[3] == gene_length:
