@@ -18,7 +18,7 @@ sourmash_result = "/home/linproject/Workspace/Sourmash2.0/result/"
 
 # FUNCTIONS
 def connect_to_db():
-    conn = Connect("localhost", "LINbase","Latham@537")
+    conn = Connect("127.0.0.1", "LINbase","Latham@537")
     c = conn.cursor()
     c.execute("use LINdb_NCBI_RefSeq_test")
     return conn, c
