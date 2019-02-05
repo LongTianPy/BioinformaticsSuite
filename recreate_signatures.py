@@ -43,13 +43,17 @@ def recompute_signatures(df):
     def compute_single_signature(genome_id,folder):
         cmd = "sourmash compute {0} -k 21,31,51 -n 1000 -o {1} > /dev/null 2>&1".format(df.loc[genome_id,"FilePath"], join(folder,str(genome_id)+".sig"))
         os.system(cmd)
+    total = len(df.index)
+    current = 1
     for genome_id in df.index:
+        print("Processing {0} out of {1} genomes".format(current,total))
         lingroup = get_LINgroup(genome_id)
         lingroup_folder = join(sourmash_dir, lingroup)
         if not os.path.isdir(lingroup_folder):
             os.mkdir(lingroup_folder)
             compute_single_signature(genome_id,rep_bac_dir)
         compute_single_signature(genome_id, lingroup_folder)
+        current += 1
 
 # MAIN
 if __name__ == '__main__':
