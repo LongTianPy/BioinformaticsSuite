@@ -34,7 +34,7 @@ def get_parsed_args():
 #     for each in suffix:
 #         each_str = str(each)
 #         each_digits = len(each_str)
-#         each_accession = accession[:-each_digits] + each_str
+#         each_accession = accession[:-each_digits] + each_str/
 #         print(each_accession)
 #         handle = Entrez.efetch(db='nucleotide', id=each_accession, rettype='fasta', retmode='text')
 #         record = SeqIO.read(handle,'fasta')
@@ -44,13 +44,16 @@ def get_parsed_args():
 
 def download_from_accession_file(accession_file,out_dir):
     with open(accession_file, "r") as f:
-        accession_numbers = [i.strip() for i in f.readlines()]
-    for accession in accession_numbers:
-        first_two = accession[:2]
-        second_two = accession[2:4]
-        project = first_two+second_two+"01"
-        url = "/".join([wgs_base_url, first_two, second_two, project, project+".1.fsa_nt.gz"])
-        urllib.request.urlretrieve(url, join(out_dir, accession+".fasta.gz"))
+        names = [i.strip().split('\t')[0] for i in f.readlines()]
+        accession_numbers = [i.strip().split('\t')[1] for i in f.readlines()]
+for i in range(len(accession_numbers)):
+    accession = accession_numbers[i]
+    name = names[i]
+    first_two = accession[:2]
+    second_two = accession[2:4]
+    project = first_two+second_two+"01"
+    url = "/".join([wgs_base_url, first_two, second_two, project, project+".1.fsa_nt.gz"])
+    urllib.request.urlretrieve(url, join(out_dir, name+".fasta.gz"))
         # print(url)
         # cmd = "curl -o {0} {1}".format(out_dir, url)
         # print(cmd)
